@@ -24,16 +24,15 @@ def user_input(p_type, p_prompt='Введите значение'):
         m_value = input(f'  {p_prompt}: ')
 
 
-def account_refill(p_obj):
-    print('=' * 40)
-    print('=    Кошелёк - Пополнение счёта', ' ' * 6, '=')
-    print('=' * 40)
-    income = user_input(float, 'Сумма пополнения')
-    if income is not None:
+def account_refill(p_old_value, p_income):
+    if p_income is not None:
+        """
         if 'value' in p_obj:
             p_obj['value'] += income
         else:
             p_obj['value'] = income
+        """
+        return p_old_value + p_income
 
 
 def do_buy(p_obj):
@@ -93,7 +92,11 @@ def do_accounting():
 
         choice = input('Ваш выбор: ')
         if choice == '1':
-            account_refill(my_wallet)
+            print('=' * 40)
+            print('=    Кошелёк - Пополнение счёта', ' ' * 6, '=')
+            print('=' * 40)
+            income = user_input(float, 'Сумма пополнения')
+            my_wallet['value'] = account_refill(my_wallet['value'], income)
         elif choice == '2':
             do_buy(my_wallet)
         elif choice == '3':
