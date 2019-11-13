@@ -99,16 +99,24 @@ def copy_object():
         print('  -!-> Источник не существует. Команда не выполнена.')
 
 
+def get_folder_objects(p_path):
+    m_folders = []
+    m_files = []
+    if p_path is not None:
+        m_folders = [z for z in os.listdir('.') if os.path.isdir(f'./{z}')]
+        m_folders.sort()
+        m_files = [z for z in os.listdir('.') if os.path.isfile(f'./{z}')]
+        m_files.sort()
+    return m_folders, m_files
+
+
 def show_listing(p_mode=0):
     print(build_menu_item('*' * 78))
     m_info = "директорий" if 1 == p_mode else "файлов" if 2 == p_mode else "всех объектов"
     print(build_menu_item(f'Список {m_info} для'))
     print(build_menu_item(os.getcwd()))
     print(build_menu_item('-' * 78))
-    m_folders = [z for z in os.listdir('.') if 2 != p_mode and os.path.isdir(f'./{z}')]
-    m_folders.sort()
-    m_files = [z for z in os.listdir('.') if 1 != p_mode and os.path.isfile(f'./{z}')]
-    m_files.sort()
+    m_folders, m_files = get_folder_objects('.')
     if 2 != p_mode:
         for x in m_folders:
             print(build_menu_item(f"  {f'< {x} >':<76}"))
@@ -161,6 +169,27 @@ def change_work_dir():
         print('  -!-> Введённый путь не является корректным. Команда не выполнена.')
 
 
+def do_write(p_header, p_list, p_file):
+    m_splitter = ''
+    p_file.write(f'{p_header}:')
+    for item in p_list:
+        p_file.write(f' {m_splitter}{item}')
+        if '' == m_splitter:
+            m_splitter = ','
+
+
+def save_listing(p_path):
+    m_folders, m_files = get_folder_objects('.')
+    if p_path is not None:
+        if not os.path.exists(os.path.split(p_path)[0]):
+            os.makedirs(os.path.split(p_path)[0])
+        with open(p_path, 'w') as f:
+            do_write('files', m_files, f)
+            f.write('\n\n')
+            do_write('dirs', m_folders, f)
+    print(f'Листинг текущей директории успешно сохранён в файле {p_path}')
+
+
 def do_file_mgr():
     m_options = {
         '1': {'func': make_folder, 'args': None},
@@ -174,7 +203,8 @@ def do_file_mgr():
         '9': {'func': change_work_dir, 'args': None},
         '0': {'func': show_current_dir, 'args': None},
         'b': {'func': do_accounting, 'args': None},
-        'v': {'func': do_play, 'args': None}
+        'v': {'func': do_play, 'args': None},
+        'l': {'func': save_listing, 'args': './data/listdir.txt'}
     }
     while True:
         print(build_menu_item('*' * 78))
@@ -190,6 +220,7 @@ def do_file_mgr():
         print(build_menu_item('информация об авторе', '8'))
         print(build_menu_item('сменить рабочую директорию ', '9'))
         print(build_menu_item('показать рабочую директорию ', '0'))
+        print(build_menu_item('сохранить листинг рабочей директории ', 'l'))
         print(build_menu_item('выход', 'q'))
         print(build_menu_item('викторина "День рождения знаменитости"', 'v'))
         print(build_menu_item('личный счёт', 'b'))
