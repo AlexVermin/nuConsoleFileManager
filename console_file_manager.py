@@ -1,13 +1,16 @@
-import os, sys, platform, shutil
+import os
+import sys
+import platform
+import shutil
 from celebrities import do_play
 from accounting import do_accounting, user_input
 
 
-def print_menu_item(p_name, p_key = None):
+def build_menu_item(p_name, p_key=None):
     if p_key is None:
-        print(f'*{p_name:^78}*')
+        return f'*{p_name:^78}*'
     else:
-        print(f'* {p_key}. {p_name:<74}*')
+        return f'* {p_key}. {p_name:<74}*'
 
 
 def check_path(p_path):
@@ -97,51 +100,51 @@ def copy_object():
 
 
 def show_listing(p_mode=0):
-    print_menu_item('*' * 78)
+    print(build_menu_item('*' * 78))
     m_info = "директорий" if 1 == p_mode else "файлов" if 2 == p_mode else "всех объектов"
-    print_menu_item(f'Список {m_info} для')
-    print_menu_item(os.getcwd())
-    print_menu_item('-' * 78)
+    print(build_menu_item(f'Список {m_info} для'))
+    print(build_menu_item(os.getcwd()))
+    print(build_menu_item('-' * 78))
     m_folders = [z for z in os.listdir('.') if 2 != p_mode and os.path.isdir(f'./{z}')]
     m_folders.sort()
     m_files = [z for z in os.listdir('.') if 1 != p_mode and os.path.isfile(f'./{z}')]
     m_files.sort()
     if 2 != p_mode:
         for x in m_folders:
-            print_menu_item(f"  {f'< {x} >':<76}")
+            print(build_menu_item(f"  {f'< {x} >':<76}"))
     if 1 != p_mode:
         for x in m_files:
-            print_menu_item(f'  {x:<76}')
-    print_menu_item('*' * 78)
+            print(build_menu_item(f'  {x:<76}'))
+    print(build_menu_item('*' * 78))
     print('\n')
 
 
 def show_author():
-    print_menu_item('*' * 78)
-    print_menu_item('Информация об авторе')
-    print_menu_item('-' * 78)
-    print_menu_item('Качка Алексей')
-    print_menu_item('*' * 78)
+    print(build_menu_item('*' * 78))
+    print(build_menu_item('Информация об авторе'))
+    print(build_menu_item('-' * 78))
+    print(build_menu_item('Качка Алексей'))
+    print(build_menu_item('*' * 78))
     print('\n')
 
 
 def show_sys_info():
-    print_menu_item('*' * 78)
-    print_menu_item('Информация об операционной системе')
-    print_menu_item('-' * 78)
+    print(build_menu_item('*' * 78))
+    print(build_menu_item('Информация об операционной системе'))
+    print(build_menu_item('-' * 78))
     my_os = platform.uname()
-    print_menu_item(f'Платформа: {sys.platform}, имя: {os.name}, система: {my_os.system}.{my_os.release}, версия: {my_os.version}')
-    print_menu_item('*' * 78)
+    print(build_menu_item(f'Платформа: {sys.platform}, имя: {os.name}, система: {my_os.system}.{my_os.release}, версия: {my_os.version}'))
+    print(build_menu_item('*' * 78))
     print('\n')
 
 
 def show_current_dir():
-    print_menu_item('*' * 78)
-    print_menu_item('Текущая рабочая директория')
-    print_menu_item('-' * 78)
+    print(build_menu_item('*' * 78))
+    print(build_menu_item('Текущая рабочая директория'))
+    print(build_menu_item('-' * 78))
     m_cur_path = os.getcwd()
-    print_menu_item(f'{m_cur_path}')
-    print_menu_item('*' * 78)
+    print(build_menu_item(f'{m_cur_path}'))
+    print(build_menu_item('*' * 78))
     print('\n')
 
 
@@ -174,23 +177,23 @@ def do_file_mgr():
         'v': {'func': do_play, 'args': None}
     }
     while True:
-        print_menu_item('*' * 78)
-        print_menu_item('Консольный файловый менеджер')
-        print_menu_item('*' * 78)
-        print_menu_item('создать директорию', '1')
-        print_menu_item('удалить объект', '2')
-        print_menu_item('копировать объект', '3')
-        print_menu_item('содержимое рабочей директории - все объекты', '4')
-        print_menu_item('содержимое рабочей директории - только поддиректории', '5')
-        print_menu_item('содержимое рабочей директории - только файлы', '6')
-        print_menu_item('информация об операционной системе', '7')
-        print_menu_item('информация об авторе', '8')
-        print_menu_item('сменить рабочую директорию ', '9')
-        print_menu_item('показать рабочую директорию ', '0')
-        print_menu_item('выход', 'q')
-        print_menu_item('викторина "День рождения знаменитости"', 'v')
-        print_menu_item('личный счёт', 'b')
-        print_menu_item('*' * 78)
+        print(build_menu_item('*' * 78))
+        print(build_menu_item('Консольный файловый менеджер'))
+        print(build_menu_item('*' * 78))
+        print(build_menu_item('создать директорию', '1'))
+        print(build_menu_item('удалить объект', '2'))
+        print(build_menu_item('копировать объект', '3'))
+        print(build_menu_item('содержимое рабочей директории - все объекты', '4'))
+        print(build_menu_item('содержимое рабочей директории - только поддиректории', '5'))
+        print(build_menu_item('содержимое рабочей директории - только файлы', '6'))
+        print(build_menu_item('информация об операционной системе', '7'))
+        print(build_menu_item('информация об авторе', '8'))
+        print(build_menu_item('сменить рабочую директорию ', '9'))
+        print(build_menu_item('показать рабочую директорию ', '0'))
+        print(build_menu_item('выход', 'q'))
+        print(build_menu_item('викторина "День рождения знаменитости"', 'v'))
+        print(build_menu_item('личный счёт', 'b'))
+        print(build_menu_item('*' * 78))
         choice = input('Ваш выбор: ')
         if choice in m_options.keys():
             # из-за того, что функции из модулей викторины и счёта сделаны без параметров,
