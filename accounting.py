@@ -1,5 +1,9 @@
 from datetime import datetime
+import os
+import pickle
 
+
+SETTINGS_PATH = './data/accounting.set'
 
 def user_input(p_type, p_prompt='Введите значение'):
     m_value = None
@@ -75,10 +79,14 @@ def show_history(p_obj):
 
 def do_accounting():
     # инициализируем "кошелёк"
-    my_wallet = {
-        'value': 0.0,
-        'history': {}
-    }
+    if not os.path.exists(SETTINGS_PATH):
+        my_wallet = {
+            'value': 0.0,
+            'history': {}
+        }
+    else:
+        with open(SETTINGS_PATH, 'rb') as f:
+            my_wallet = pickle.load(f)
     # а теперь будем над ним глумиться:
     while True:
         print('=' * 40)
@@ -102,6 +110,10 @@ def do_accounting():
         elif choice == '3':
             show_history(my_wallet)
         elif choice == '4':
+            if not os.path.exists('./data'):
+                os.makedirs('./data')
+            with open(SETTINGS_PATH, 'wb') as f:
+                pickle.dump(my_wallet, f)
             break
         else:
             print('  -> Неверный пункт меню, попробуйте ещё раз...')
