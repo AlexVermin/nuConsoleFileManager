@@ -106,7 +106,7 @@ def get_folder_objects(p_path):
             v_files = [z for z in os.listdir(p_path) if os.path.isfile(z)]
             v_files.sort()
         except FileNotFoundError:
-            print(f'  -!-> Путь {{{p_path}}} не найден.')
+            print(f'Путь {{{p_path}}} не найден.')
     return v_folders, v_files
 
 
@@ -240,4 +240,5 @@ def do_file_mgr():
 
 
 if '__main__' == __name__:
-    do_file_mgr()
+    # do_file_mgr()
+    m_folders, m_files = get_folder_objects('z:/')
