@@ -5,6 +5,7 @@ import pickle
 
 SETTINGS_PATH = './data/accounting.set'
 
+
 def user_input(p_type, p_prompt='Введите значение'):
     m_value = None
     if p_type not in (str, int, float):
@@ -29,14 +30,7 @@ def user_input(p_type, p_prompt='Введите значение'):
 
 
 def account_refill(p_old_value, p_income):
-    if p_income is not None:
-        """
-        if 'value' in p_obj:
-            p_obj['value'] += income
-        else:
-            p_obj['value'] = income
-        """
-        return p_old_value + p_income
+    return p_old_value + p_income if p_income is not None else p_old_value
 
 
 def do_buy(p_obj):
