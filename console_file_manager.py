@@ -7,10 +7,7 @@ from accounting import do_accounting, user_input
 
 
 def build_menu_item(p_name, p_key=None):
-    if p_key is None:
-        return f'*{p_name:^78}*'
-    else:
-        return f'* {p_key}. {p_name:<74}*'
+    return f'*{p_name:^78}*' if p_key is None else f'* {p_key}. {p_name:<74}*'
 
 
 def check_path(p_path):
@@ -100,14 +97,17 @@ def copy_object():
 
 
 def get_folder_objects(p_path):
-    m_folders = []
-    m_files = []
+    v_folders = []
+    v_files = []
     if p_path is not None:
-        m_folders = [z for z in os.listdir('.') if os.path.isdir(f'./{z}')]
-        m_folders.sort()
-        m_files = [z for z in os.listdir('.') if os.path.isfile(f'./{z}')]
-        m_files.sort()
-    return m_folders, m_files
+        try:
+            v_folders = [z for z in os.listdir(p_path) if os.path.isdir(z)]
+            v_folders.sort()
+            v_files = [z for z in os.listdir(p_path) if os.path.isfile(z)]
+            v_files.sort()
+        except FileNotFoundError:
+            print(f'Путь {{{p_path}}} не найден.')
+    return v_folders, v_files
 
 
 def show_listing(p_mode=0):
@@ -116,12 +116,12 @@ def show_listing(p_mode=0):
     print(build_menu_item(f'Список {m_info} для'))
     print(build_menu_item(os.getcwd()))
     print(build_menu_item('-' * 78))
-    m_folders, m_files = get_folder_objects('.')
+    v_folders, v_files = get_folder_objects('.')
     if 2 != p_mode:
-        for x in m_folders:
+        for x in v_folders:
             print(build_menu_item(f"  {f'< {x} >':<76}"))
     if 1 != p_mode:
-        for x in m_files:
+        for x in v_files:
             print(build_menu_item(f'  {x:<76}'))
     print(build_menu_item('*' * 78))
     print('\n')
@@ -179,14 +179,14 @@ def do_write(p_header, p_list, p_file):
 
 
 def save_listing(p_path):
-    m_folders, m_files = get_folder_objects('.')
+    v_folders, v_files = get_folder_objects('.')
     if p_path is not None:
         if not os.path.exists(os.path.split(p_path)[0]):
             os.makedirs(os.path.split(p_path)[0])
         with open(p_path, 'w') as f:
-            do_write('files', m_files, f)
+            do_write('files', v_files, f)
             f.write('\n\n')
-            do_write('dirs', m_folders, f)
+            do_write('dirs', v_folders, f)
     print(f'Листинг текущей директории успешно сохранён в файле {p_path}')
 
 
@@ -240,4 +240,5 @@ def do_file_mgr():
 
 
 if '__main__' == __name__:
-    do_file_mgr()
+    # do_file_mgr()
+    m_folders, m_files = get_folder_objects('z:/')
